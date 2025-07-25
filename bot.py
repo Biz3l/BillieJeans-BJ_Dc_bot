@@ -38,5 +38,4 @@ async def mario(ctx):
     #Credo mano
     await ctx.send("https://pm1.aminoapps.com/6868/9bd680702e657d438cafd346a0304ded76b4ea3ar1-720-661v2_hq.jpg")
 
-keep_alive()
 bot.run(dc_token)
