@@ -13,8 +13,8 @@ model = genai.GenerativeModel("gemini-2.0-flash")
 
 #Configurar Bot
 intents = discord.Intents.default()
-intents.messages = True
-bot = commands.bot(command_prefix=":", intents=intents)
+intents.message_content = True
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
@@ -22,12 +22,21 @@ async def on_ready():
 
 @bot.command()
 async def ask(ctx, *, question):
-    await ctx.trigger_typing()
-    try:
-        response = model.generate_content(question)
-        await ctx.send(response.text)
-    except Exception as e:
-        await ctx.send("Erro ao gerar resposta com Gemini.")
-        print(e)
+  try:
+        async with ctx.typing():
+            response = model.generate_content(question)
+            await ctx.send(response.text)
+  except Exception as e:
+      await ctx.send("Erro ao gerar resposta com Gemini.")
+      print(e)
+@bot.command()
+async def ping(ctx):
+    #PONG
+    await ctx.send("Pong :)")
+@bot.command()
+async def mario(ctx):
+    #Credo mano
+    await ctx.send("https://pm1.aminoapps.com/6868/9bd680702e657d438cafd346a0304ded76b4ea3ar1-720-661v2_hq.jpg")
+
 keep_alive()
 bot.run(dc_token)
