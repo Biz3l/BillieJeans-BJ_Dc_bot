@@ -9,7 +9,7 @@ dc_token = config("DC_TOKEN")
 gemini_api = config("GOOGLEGEMINIAPI")
 
 genai.configure(api_key=gemini_api)
-model = genai.GenerativeModel("gemini-2.0-pro")
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 #Configurar Bot
 intents = discord.Intents.default()
