@@ -29,13 +29,19 @@ async def ask(ctx, *, question):
   except Exception as e:
       await ctx.send("Erro ao gerar resposta com Gemini.")
       print(e)
+
 @bot.command()
 async def ping(ctx):
     #PONG
     await ctx.send("Pong :)")
+
 @bot.command()
 async def mario(ctx):
     #Credo mano
     await ctx.send("https://pm1.aminoapps.com/6868/9bd680702e657d438cafd346a0304ded76b4ea3ar1-720-661v2_hq.jpg")
+
+@bot.command()
+async def miguel(ctx, palavra):
+    await ctx.send(f"Sim em minha concordância o Miguel é {palavra}")
 
 bot.run(dc_token)
