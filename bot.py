@@ -8,7 +8,7 @@ dc_token = config("DC_TOKEN")
 gemini_api = config("GOOGLEGEMINIAPI")
 
 genai.configure(api_key=gemini_api)
-model = genai.GenerativeModel("gemini-2.0-flash")
+model = genai.GenerativeModel("gemini-2.5-pro")
 prefix = "!"
 
 #Configurar Bot
@@ -44,23 +44,19 @@ async def mario(ctx):
 async def eleé(ctx, pessoa, palavra):
     await ctx.send(f"Sim em minha concordância o(a) {pessoa} é {palavra}")
     await ctx.send(f"Lembrando, ele gosta de tu hein cuidado")
+    
 
 @bot.command()
-async def h(ctx):
-    await ctx.send(f"""
-Aqui estão alguns dos meus comandos!
-{prefix}ask
-Perguntas e respostas diretamente com inteligência artificial, caso dê algum erro,
- provavelmente é pelo tamanho da sua pergunta/resposta!
-_______________________________________________________________________
-{prefix}ping
-Pong!
-_______________________________________________________________________
-{prefix}mario
-Um negócio meio nojento
-_______________________________________________________________________
-{prefix}eleé
-Envie um nome e uma palabvra que uma pessoa pode ser = Matheus Corno
-""")
+async def minhafoto(ctx):
+    fotousr = ctx.author.display_avatar
+    await ctx.send(f"{fotousr}")
+
+@bot.command()
+async def usrdata(ctx, idusr: int):
+        usr = await bot.fetch_user(idusr)
+        await ctx.send(f"Display name: {usr.display_name}")
+        await ctx.send(f"{usr.display_avatar}")
+        await ctx.send(f"Conta criada em: {usr.created_at.strftime("%d/%m/%Y %H:%M:%S")}")
+        await ctx.send(f"Usuário: @{usr.name}")
 
 bot.run(dc_token)
