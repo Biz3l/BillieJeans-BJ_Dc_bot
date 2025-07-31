@@ -3,7 +3,6 @@ from decouple import config
 from flask import Flask
 import google.generativeai as genai
 from discord.ext import commands
-from keep_alive import keep_alive
 
 dc_token = config("DC_TOKEN")
 gemini_api = config("GOOGLEGEMINIAPI")
