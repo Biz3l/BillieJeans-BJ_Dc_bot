@@ -3,6 +3,7 @@ from decouple import config
 from flask import Flask
 import google.generativeai as genai
 from discord.ext import commands
+import re
 
 dc_token = config("DC_TOKEN")
 gemini_api = config("GOOGLEGEMINIAPI")
@@ -54,9 +55,11 @@ async def minhafoto(ctx):
 @bot.command()
 async def usrdata(ctx, idusr: int):
         usr = await bot.fetch_user(idusr)
-        await ctx.send(f"Display name: {usr.display_name}")
+        usr_display = re.sub(r"([^a-zA-Z0-9\s])", r"\\\1", usr.display_name)
+        usr_name = re.sub(r"([^a-zA-Z0-9\s])", r"\\\1", usr.name)
+        await ctx.send(f"Display name: {usr_display}")
         await ctx.send(f"{usr.display_avatar}")
         await ctx.send(f"Conta criada em: {usr.created_at.strftime("%d/%m/%Y %H:%M:%S")}")
-        await ctx.send(f"Usuário: @{usr.name}")
+        await ctx.send(f"Usuário: @{usr_name}")
 
 bot.run(dc_token)
