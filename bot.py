@@ -43,8 +43,11 @@ async def mario(ctx):
 
 @bot.command()
 async def eleé(ctx, pessoa, palavra):
-    await ctx.send(f"Sim em minha concordância o(a) {pessoa} é {palavra}")
-    await ctx.send(f"Lembrando, ele gosta de tu hein cuidado")
+    if pessoa.lower() == "gabriel" or pessoa.lower() == "biel" or pessoa.lower() == "biz3l":
+        await ctx.send(f"{pessoa} é muito macho, não é viado não viu")
+    else:
+        await ctx.send(f"Sim em minha concordância o(a) {pessoa} é {palavra}")
+        await ctx.send(f"Lembrando, ele gosta de tu hein cuidado")
     
 
 @bot.command()
