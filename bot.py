@@ -4,6 +4,7 @@ from flask import Flask
 import google.generativeai as genai
 from discord.ext import commands
 import re
+import datetime
 
 dc_token = config("DC_TOKEN")
 gemini_api = config("GOOGLEGEMINIAPI")
@@ -64,5 +65,10 @@ async def usrdata(ctx, idusr: int):
         await ctx.send(f"{usr.display_avatar}")
         await ctx.send(f"Conta criada em: {usr.created_at.strftime("%d/%m/%Y %H:%M:%S")}")
         await ctx.send(f"Usuário: @{usr_name}")
+
+@bot.command()
+async def diaehora(ctx):
+    hoje = datetime.datetime.now()
+    await ctx.send(f"{hoje.strftime("%A -- %H:%M:%S")}")
 
 bot.run(dc_token)
