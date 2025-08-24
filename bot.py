@@ -67,6 +67,7 @@ async def usrdata(ctx, idusr: int):
         await ctx.send(f"Usuário: @{usr_name}")
 
 @bot.command()
+# Comando pra ver o dia e a hora
 async def diaehora(ctx):
     hoje = datetime.datetime.now()
     await ctx.send(f"{hoje.strftime("%A -- %H:%M:%S")}")
