@@ -63,7 +63,7 @@ async def diaehora(ctx):
     await ctx.send(f"{hoje.strftime('%A -- %H:%M:%S')}")
 
 @bot.command()
-# Comando de Upscaling anime
+# Comando de Upscaling
 async def upscale(ctx):
     attachment = ctx.message.attachments[0]
     if not attachment.content_type.startswith("image/"):
