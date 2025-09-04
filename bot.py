@@ -72,6 +72,7 @@ async def upscale(ctx):
         await ctx.send("O conteúdo necessita ser uma imagem! ")
         return
     try:
+        await ctx.send("Processando imagem, por favor aguarde.")
         file_path = f"utilities/{attachment.filename}"
         await attachment.save(file_path)
         enhancer.converterimg(f"utilities/{attachment.filename}")
