@@ -42,11 +42,13 @@ async def eleé(ctx, pessoa, palavra):
 
 
 @bot.command()
+# Retorna a foto de perfil de quem enviou a mensagem
 async def minhafoto(ctx):
     fotousr = ctx.author.display_avatar
     await ctx.send(f"{fotousr}")
 
 @bot.command()
+# Retorna os dados do usuário no discord
 async def usrdata(ctx, idusr: int):
         usr = await bot.fetch_user(idusr)
         usr_display = re.sub(r"([^a-zA-Z0-9\s])", r"\\\1", usr.display_name)
@@ -77,6 +79,7 @@ async def upscale(ctx):
         enhancer.upscale(f'utilities/convert.jpg')
         await ctx.send("Aqui está sua imagem:", file=discord.File("utilities/output.png"))
         os.remove(f"utilities/convert.jpg")
+        os.remove(f"utilities/output.png")
     except:
         await ctx.send('fiquei doidão e não consegui enviar a imagem')
 
