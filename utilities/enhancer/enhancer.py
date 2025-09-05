@@ -4,11 +4,15 @@ from basicsr.archs.rrdbnet_arch import RRDBNet
 import torch
 import warnings
 import numpy as np
+import os
+import uuid
+
 
 warnings.filterwarnings('ignore')
 
 def upscale(image):
-  model_path = 'utilities/RealESRGAN_x4plus.pth'
+
+  model_path = 'utilities/enhancer/RealESRGAN_x4plus.pth'
 
   state_dict = torch.load(model_path, map_location=torch.device('cuda'))['params_ema']
 
@@ -30,16 +34,26 @@ def upscale(image):
   output, _ = upsampler.enhance(img, outscale=4)
 
   output_img = Image.fromarray(output)
-  output_img.save('utilities/output.png')
+
+  unique_id = uuid.uuid4().hex
+
+  output_img.save(f'utilities/enhancer/{unique_id}.png')
+  return f'utilities/enhancer/{unique_id}.png'
 
 
 def converterimg(caminhoimagem):
   imagem = Image.open(caminhoimagem)
-
+  
   imagem = imagem.convert('RGB')
 
-  nome_saida = 'convert' + ".jpg"
+  nome_file = os.path.splitext(os.path.basename(caminhoimagem))[0]
+  
+  nome_saida = f'{nome_file}' + ".jpg"
 
-  imagem.save(f'utilities/{nome_saida}', "JPEG")
-    
+  imagem.save(f'utilities/enhancer/{nome_saida}', "JPEG")
+
   print('Imagem Salva com Sucesso!')
+
+  return nome_saida
+
+  
