@@ -23,7 +23,12 @@ bot = commands.Bot(command_prefix=f"{prefix}", help_command=None, intents=intent
 @bot.event
 async def on_ready():
   print(f"Bot {bot.user.name} está pronto!")
-
+  try:
+    synced = await bot.tree.sync()
+    print(f'Bot syncado com sucesso: {len(synced)}')
+  except Exception as e:
+      print(f'Erro ao sincronizar: {e}')
+      
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -45,6 +50,12 @@ async def custom_help(ctx):
 async def ping(ctx):
     #PONG
     await ctx.send("Pong :) 🏓")
+
+
+@bot.tree.command(name='ping', description='pong!')
+async def ping(interaction: discord.Interaction):
+    await interaction.response.send_message(f"Pong! 🏓, {interaction.user.mention}!")
+    
 
 @bot.command()                                                                                                  
 async def mario(ctx):
