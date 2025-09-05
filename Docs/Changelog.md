@@ -3,6 +3,8 @@
 - Correção do comando !help
 - Adição de um Downloader para videos do youtube (talvez outras redes sociais também)
 
+# Atualizações
+
 # 0.1
 - Adição do comando de Upscaling.
 - Remoção do GeminiAI
