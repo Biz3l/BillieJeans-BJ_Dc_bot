@@ -46,12 +46,22 @@ async def custom_help(ctx):
     )
     await ctx.send(embed=embed_help)
 
+@bot.tree.command(name='help', description='Puxa os dados de help do bot')
+async def help(interaction: discord.Interaction):
+    embed_help = discord.Embed(
+        title="Ajuda do Bot 🤖",
+        description=bot_help,
+        color=discord.Color.red()
+    )
+    await interaction.response.send_message(embed=embed_help)
+    
+
 @bot.command()
 async def ping(ctx):
     #PONG
     await ctx.send("Pong :) 🏓")
 
-
+# Ping porém em slash / :)
 @bot.tree.command(name='ping', description='pong!')
 async def ping(interaction: discord.Interaction):
     await interaction.response.send_message(f"Pong! 🏓, {interaction.user.mention}!")
@@ -114,11 +124,13 @@ async def upscale(ctx):
         
         loop = asyncio.get_event_loop()
 
-        # pega o nome da imagem convertida (Já que no caso cada imagem tem nomes diferentes)
+        # Pega o nome da imagem convertida (Já que no caso cada imagem tem nomes diferentes)
         imagemconvertida = await loop.run_in_executor(None, enhancer.converterimg, f"{file_path}")
 
         os.remove(f"{file_path}")
 
+
+        # Pega o path inteiro do output da imagem em upscale
         imagememupscale = await loop.run_in_executor(None, enhancer.upscale, f'utilities/enhancer/{imagemconvertida}')
         
         await ctx.send("Aqui está sua imagem:", file=discord.File(f"{imagememupscale}"))
@@ -130,6 +142,9 @@ async def upscale(ctx):
     except Exception as e:
         await ctx.send('Fiquei doidão e não consegui enviar a imagem 😵')
         print(f'[ERRO UPSCALE]: {e}')
+        os.remove(f"utilities/enhancer/{imagemconvertida}")
+        os.remove(f"{imagememupscale}")
+        print(f'Imagens apagadas com sucesso')
 
 @bot.command()
 # Um easter egg do bot (Não vou incluir em help nem em readme, vai ficar escondido, só eu sei que existe)

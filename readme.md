@@ -1,6 +1,6 @@
 # Adicionado até o momento
 
-[Versionamento](/Docs/Changelog)
+[Versionamento](/Docs/Changelog.md)
 
 ###### !ping
 "Pong!" para ver / calcular tempo de resposta do bot e ver se ele está up.
