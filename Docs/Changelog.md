@@ -5,6 +5,9 @@
 
 # Atualizações
 
+# 0.1.5
+- Adição das funções assíncronas, que agora retornam uma imagem com um UUID Único!
+
 # 0.1
 - Adição do comando de Upscaling.
 - Remoção do GeminiAI
