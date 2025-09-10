@@ -4,7 +4,7 @@
 
 # Atualizações
 
-## 0.2
+# 0.2
 - Adição do comando !version para ver a versão do robô :)
 - Correção do comando !help
 - Adição de um Downloader para audios do Youtube!
