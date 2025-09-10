@@ -1,4 +1,6 @@
 # Adicionado até o momento
+Python == 3.8
+
 
 [Changelog](/Docs/Changelog.md)
 
@@ -16,7 +18,6 @@ Simplesmente retorna a foto de perfil do usuário o qual enviou esse comando
 
 ###### !usrdata
 Só enviar !usrdata + id do usuário que você queira ver, e veja a magica acontecer!
-
 
 ###### !diaehora
 **Autoexplicativo**, só testa ai cara :)
