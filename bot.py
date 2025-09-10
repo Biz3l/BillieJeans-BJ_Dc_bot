@@ -165,7 +165,8 @@ async def ytdl(ctx, url):
         return
     await ctx.send(f'PROCESSANDO :) \n**ATENÇÃO**, o arquivo enviado resulte em mais que 8mb, variando do server, há a possibilidade, do arquivo não ser enviado!')
     try:
-        caminhodownload = ytdownloader.ytdownloader(url)
+        loop = asyncio.get_event_loop()
+        caminhodownload = await loop.run_in_executor(None, ytdownloader.ytdownloader, f"{url}")
         if caminhodownload == None:
             await ctx.send('ERRO: Arquivo não encontrado, possivelmente falha no download')
         
@@ -185,7 +186,7 @@ async def ytdl(ctx, url):
             return
         return
     
-    
+
 @bot.command()
 async def version(ctx):
     version = 0.2
