@@ -9,11 +9,12 @@ import os
 from PIL import Image
 import asyncio
 from utilities.botCommands import botcommands
-from time import sleep
+from utilities.ytdownloader import ytdownloader
+
+
 dc_token = config("DC_TOKEN")
 prefix = "!"
 bot_help = botcommands.comandos()
-
 
 #Configurar Bot
 intents = discord.Intents.default()
@@ -133,7 +134,7 @@ async def upscale(ctx):
         # Pega o path inteiro do output da imagem em upscale
         imagememupscale = await loop.run_in_executor(None, enhancer.upscale, f'utilities/enhancer/{imagemconvertida}')
         
-        await ctx.send("Aqui está sua imagem:", file=discord.File(f"{imagememupscale}"))
+        await ctx.send(f"{ctx.author.mention} Aqui está sua imagem:", file=discord.File(f"{imagememupscale}"))
 
         os.remove(f"utilities/enhancer/{imagemconvertida}")
 
@@ -155,5 +156,40 @@ async def vazio_roxo(ctx):
         await ctx.send('**無量空処**')
         await ctx.send('🤌🟣')
         await ctx.send('https://i.pinimg.com/originals/e8/4e/db/e84edb279472c7ab49e97ec276d4ffda.gif')
+
+@bot.command()
+# Comando para download de links mp3 do yt!
+async def ytdl(ctx, url):
+    if not url:
+        await ctx.send('Não encontrei nenhuma URL especificada! Para entender o comando envie "!help" !')
+        return
+    await ctx.send(f'PROCESSANDO :) \n**ATENÇÃO**, o arquivo enviado resulte em mais que 8mb, variando do server, há a possibilidade, do arquivo não ser enviado!')
+    try:
+        caminhodownload = ytdownloader.ytdownloader(url)
+        if caminhodownload == None:
+            await ctx.send('ERRO: Arquivo não encontrado, possivelmente falha no download')
+        
+        if os.path.getsize(caminhodownload) > 8 * 1024 * 1024:
+            await ctx.send('ERRO: Arquivo grande demais para envio no discord!')
+            os.remove(caminhodownload)
+            return
+        
+        await ctx.send(f"{ctx.author.mention} Aqui está seu arquivo baixado:", file=discord.File(f"{caminhodownload}"))
+        os.remove(caminhodownload)
+
+    except Exception as e:
+        await ctx.send('Erro ao processar vídeo')
+        print(f"Erro Processamento de vídeo: {e}")
+        if caminhodownload and os.path.exists(caminhodownload):
+            os.remove(caminhodownload)
+            return
+        return
+    
+    
+@bot.command()
+async def version(ctx):
+    version = 0.2
+    criador = await bot.fetch_user('239568901204213760')
+    await ctx.send(f'Atualmente estou na versão {version}, e meu criador {criador.name} tem muito amor a mim!')
 
 bot.run(dc_token)

@@ -1,9 +1,13 @@
 # Planejamentos futuros
-## 0.2
-- Correção do comando !help
-- Adição de um Downloader para videos do youtube (talvez outras redes sociais também)
+- Jogos divertidos talvez?
+- Adição da rest, para o próprio bot postar os logs no sv privado, ao invés de eu mesmo ir lá e alterar manualmente
 
 # Atualizações
+
+## 0.2
+- Adição do comando !version para ver a versão do robô :)
+- Correção do comando !help
+- Adição de um Downloader para audios do Youtube!
 
 # 0.1.5
 - Adição das funções assíncronas, que agora retornam uma imagem com um UUID Único!

@@ -1,6 +1,6 @@
 # Adicionado até o momento
 
-[Versionamento](/Docs/Changelog.md)
+[Changelog](/Docs/Changelog.md)
 
 ###### !ping
 "Pong!" para ver / calcular tempo de resposta do bot e ver se ele está up.
@@ -25,3 +25,4 @@ Só enviar !usrdata + id do usuário que você queira ver, e veja a magica acont
 envie em conjunto com uma imagem e veja a mágica acontecer
 **Atenção**, Sujeito a erros!!!
 
+**Para outros comandos, enviar !help no bot!**
