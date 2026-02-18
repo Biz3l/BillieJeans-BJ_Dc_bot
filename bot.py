@@ -16,12 +16,12 @@ dc_token = config("DC_TOKEN")
 prefix = "!"
 bot_help = botcommands.comandos()
 
+keepAlive() #Manter o bot de pé
+
 #Configurar Bot
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix=f"{prefix}", help_command=None, intents=intents)
-
-keepAlive() #Manter o bot de pé
 
 @bot.event
 async def on_ready():
