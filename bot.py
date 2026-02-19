@@ -182,7 +182,7 @@ async def ytdl(ctx, url):
         os.remove(caminhodownload)
 
     except Exception as e:
-        await ctx.send(f'Erro ao processar vídeo \n {e}')
+        await ctx.send(f'Erro ao processar vídeo')
         print(f"Erro Processamento de vídeo: {e}")
         if caminhodownload and os.path.exists(caminhodownload):
             os.remove(caminhodownload)
