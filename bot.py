@@ -194,11 +194,11 @@ bot_version = 0.5 #Versão do bot
 @bot.command()
 async def version(ctx):
     criador = await bot.fetch_user('239568901204213760')
-    await ctx.send(f'Atualmente estou na versão {bot_version}, e meu criador {criador.name} tem muito amor a mim!')
+    await ctx.send(f'Atualmente estou na versão **{bot_version}**, e meu criador {criador.name} tem muito amor a mim!')
 
-@bot.tree.command(name='version', description='Versão')
+@bot.tree.command(name='version', description='Mostra a versão do bot')
 async def version(interaction: discord.Interaction):
     criador = await bot.fetch_user('239568901204213760')
-    await interaction.response.send_message(f'Atualmente estou na versão {bot_version}, e meu criador {criador.name} tem muito amor a mim!')
+    await interaction.response.send_message(f'Atualmente estou na versão **{bot_version}**, e meu criador {criador.name} tem muito amor a mim!')
 
 bot.run(dc_token)
