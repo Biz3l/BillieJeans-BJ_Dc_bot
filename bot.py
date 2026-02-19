@@ -131,7 +131,7 @@ async def upscale(ctx):
         # Pega o nome da imagem convertida (Já que no caso cada imagem tem nomes diferentes)
         imagemconvertida = await loop.run_in_executor(None, enhancer.converterimg, os.path.join(BASE_DIR, f"{file_path}"))
 
-        os.remove(BASE_DIR, f"{file_path}")
+        os.remove(os.path.join(BASE_DIR, f"{file_path}"))
 
 
         # Pega o path inteiro do output da imagem em upscale
@@ -139,15 +139,15 @@ async def upscale(ctx):
         
         await ctx.send(f"{ctx.author.mention} Aqui está sua imagem:", file=discord.File(os.path.join(BASE_DIR, f"{imagememupscale}")))
 
-        os.remove(BASE_DIR, f"utilities/enhancer/{imagemconvertida}")
+        os.remove(os.path.join(BASE_DIR, f"utilities/enhancer/{imagemconvertida}"))
 
-        os.remove(BASE_DIR, f"{imagememupscale}")
+        os.remove(os.path.join(BASE_DIR, f"{imagememupscale}"))
 
     except Exception as e:
         await ctx.send('Fiquei doidão e não consegui enviar a imagem 😵')
         print(f'[ERRO UPSCALE]: {e}')
-        os.remove(BASE_DIR, f"utilities/enhancer/{imagemconvertida}")
-        os.remove(BASE_DIR, f"{imagememupscale}")
+        os.remove(os.path.join(BASE_DIR, f"utilities/enhancer/{imagemconvertida}"))
+        os.remove(os.path.join(BASE_DIR, f"{imagememupscale}"))
         print(f'Imagens apagadas com sucesso')
 
 @bot.command()
