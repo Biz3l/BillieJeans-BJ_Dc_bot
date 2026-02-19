@@ -23,9 +23,11 @@ def ytdownloader(url):
     'http_headers': {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
                       '(KHTML, like Gecko) Chrome/115.0 Safari/537.36'},
-      'postprocessor_hooks': [meu_hook],
-      'restrictfilenames': True,
-      'noplaylist': True,
+    'cookiefile': 'cookies.txt',
+    'postprocessor_hooks': [meu_hook],
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'ratelimit': 1024,
 }
   
   with YoutubeDL(ydl_opts) as ydl:
