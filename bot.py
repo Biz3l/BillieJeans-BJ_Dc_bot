@@ -6,11 +6,12 @@ import re
 import datetime
 from utilities.enhancer import enhancer
 import os
-from PIL import Image
 import asyncio
 from utilities.botCommands import botcommands
 from utilities.ytdownloader import ytdownloader
 from keep_alive import keepAlive
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) ##Path base para o arquivo bot.py :)
 
 dc_token = config("DC_TOKEN")
 prefix = "!"
@@ -73,7 +74,7 @@ async def ping(interaction: discord.Interaction):
 @bot.command()                                                                                                  
 async def mario(ctx):
     #Credo mano
-    await ctx.send("https://pm1.aminoapps.com/6868/9bd680702e657d438cafd346a0304ded76b4ea3ar1-720-661v2_hq.jpg")
+    await ctx.send("WAAAAAAAAAAAAAH", file=discord.File(os.path.join(BASE_DIR, 'images/MARIOCU.jpg')))
 
 @bot.command()
 async def eleé(ctx, pessoa, *, frase: str):
@@ -121,32 +122,32 @@ async def upscale(ctx):
     try:
         await ctx.send("Processando imagem, por favor aguarde. ⏳")
 
-        file_path = f"utilities/enhancer/{attachment.filename}"
+        file_path = os.path.join(BASE_DIR, f"utilities/enhancer/{attachment.filename}")
 
         await attachment.save(file_path)
         
         loop = asyncio.get_event_loop()
 
         # Pega o nome da imagem convertida (Já que no caso cada imagem tem nomes diferentes)
-        imagemconvertida = await loop.run_in_executor(None, enhancer.converterimg, f"{file_path}")
+        imagemconvertida = await loop.run_in_executor(None, enhancer.converterimg, os.path.join(BASE_DIR, f"{file_path}"))
 
-        os.remove(f"{file_path}")
+        os.remove(BASE_DIR, f"{file_path}")
 
 
         # Pega o path inteiro do output da imagem em upscale
-        imagememupscale = await loop.run_in_executor(None, enhancer.upscale, f'utilities/enhancer/{imagemconvertida}')
+        imagememupscale = await loop.run_in_executor(None, enhancer.upscale, os.path.join(BASE_DIR, f'utilities/enhancer/{imagemconvertida}'))
         
-        await ctx.send(f"{ctx.author.mention} Aqui está sua imagem:", file=discord.File(f"{imagememupscale}"))
+        await ctx.send(f"{ctx.author.mention} Aqui está sua imagem:", file=discord.File(os.path.join(BASE_DIR, f"{imagememupscale}")))
 
-        os.remove(f"utilities/enhancer/{imagemconvertida}")
+        os.remove(BASE_DIR, f"utilities/enhancer/{imagemconvertida}")
 
-        os.remove(f"{imagememupscale}")
+        os.remove(BASE_DIR, f"{imagememupscale}")
 
     except Exception as e:
         await ctx.send('Fiquei doidão e não consegui enviar a imagem 😵')
         print(f'[ERRO UPSCALE]: {e}')
-        os.remove(f"utilities/enhancer/{imagemconvertida}")
-        os.remove(f"{imagememupscale}")
+        os.remove(BASE_DIR, f"utilities/enhancer/{imagemconvertida}")
+        os.remove(BASE_DIR, f"{imagememupscale}")
         print(f'Imagens apagadas com sucesso')
 
 @bot.command()
@@ -177,7 +178,7 @@ async def ytdl(ctx, url):
             os.remove(caminhodownload)
             return
         
-        await ctx.send(f"{ctx.author.mention} Aqui está seu arquivo baixado:", file=discord.File(f"{caminhodownload}"))
+        await ctx.send(f"{ctx.author.mention} Aqui está seu arquivo baixado:", file=discord.File(os.path.join(BASE_DIR, f"{caminhodownload}")))
         os.remove(caminhodownload)
 
     except Exception as e:
@@ -188,11 +189,16 @@ async def ytdl(ctx, url):
             return
         return
     
+version = 0.5 #Versão do bot
 
 @bot.command()
 async def version(ctx):
-    version = 0.2
     criador = await bot.fetch_user('239568901204213760')
     await ctx.send(f'Atualmente estou na versão {version}, e meu criador {criador.name} tem muito amor a mim!')
+
+@bot.tree.command(name='version', description='Versão')
+async def version(interaction: discord.Interaction):
+    criador = await bot.fetch_user('239568901204213760')
+    await interaction.response.send_message(f'Atualmente estou na versão {version}, e meu criador {criador.name} tem muito amor a mim!')
 
 bot.run(dc_token)
