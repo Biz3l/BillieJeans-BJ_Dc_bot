@@ -8,11 +8,14 @@ import os
 import uuid
 
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
 warnings.filterwarnings('ignore')
 
 def upscale(image):
 
-  model_path = 'utilities/enhancer/RealESRGAN_x4plus.pth'
+  model_path = os.path.join(BASE_DIR, 'RealESRGAN_x4plus.pth')
 
   device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -39,8 +42,8 @@ def upscale(image):
 
   unique_id = uuid.uuid4().hex
 
-  output_img.save(f'utilities/enhancer/{unique_id}.png')
-  return f'utilities/enhancer/{unique_id}.png'
+  output_img.save(f'{os.path.join(BASE_DIR, unique_id)}.png')
+  return f'{os.path.join(BASE_DIR, unique_id)}.png'
 
 
 def converterimg(caminhoimagem):
@@ -52,7 +55,7 @@ def converterimg(caminhoimagem):
   
   nome_saida = f'{nome_file}' + ".jpg"
 
-  imagem.save(f'utilities/enhancer/{nome_saida}', "JPEG")
+  imagem.save(f'{os.path.join(BASE_DIR, nome_saida)}', "JPEG")
 
   print('Imagem Salva com Sucesso!')
 

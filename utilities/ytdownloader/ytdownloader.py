@@ -1,5 +1,8 @@
 import yt_dlp
 from yt_dlp import YoutubeDL
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def ytdownloader(url):
   caminho_arquivo = None
@@ -15,7 +18,7 @@ def ytdownloader(url):
         'preferredcodec': 'mp3',
         'preferredquality': '192',
     }],
-    'outtmpl': './utilities/ytdownloader/%(title)s.%(ext)s',
+    'outtmpl': os.path.join(BASE_DIR, '%(title)s.%(ext)s'),
       # Nome do arquivo de saída
     'http_headers': {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
