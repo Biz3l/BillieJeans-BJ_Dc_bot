@@ -19,10 +19,14 @@ def upscale(image):
 
   device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+  print(f"DISPOSITIVO: {device}")
+
   state_dict = torch.load(model_path, map_location=device)['params_ema']
 
   model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
   model.load_state_dict(state_dict, strict=True)
+
+  half = True if device.type == "cuda" else False
 
   upsampler = RealESRGANer(
    scale=4,
@@ -30,7 +34,7 @@ def upscale(image):
     model=model,
    tile=0,
     pre_pad=0,
-    half=True
+    half=half
   )
 
   img = Image.open(image).convert('RGB')

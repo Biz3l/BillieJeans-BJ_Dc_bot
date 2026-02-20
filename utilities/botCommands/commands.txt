@@ -7,8 +7,8 @@ Não necessito explicar muito esse comando, ele por si só é autoexplicativo.
 !eleé 
 Tá afim de zoar os amigos? Simplesmente esse comando faz isso, só enviar '!eleé **pessoa** o que ela é'
 
-!minhafoto
-Simplesmente retorna a foto de perfil do usuário o qual enviou esse comando
+!fotodata
+Simplesmente retorna a foto de perfil do usuario colocado como argummento, se não houver nenhum vai retornar a do usuário que enviou
 
 !usrdata
 Só enviar !usrdata + id do usuário que você queira ver, e veja a magica acontecer!

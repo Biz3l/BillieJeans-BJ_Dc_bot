@@ -5,3 +5,8 @@ Pipfile.lock
 Meowr_VenvDIR
 output.png
 convert.jpg
+DOCKERFILE
+cookies.txt
+*.db
+*.webm
+*webm.part

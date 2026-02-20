@@ -10,8 +10,24 @@ import asyncio
 from utilities.botCommands import botcommands
 from utilities.ytdownloader import ytdownloader
 from keep_alive import keepAlive
+import sqlite3
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) ##Path base para o arquivo bot.py :)
+
+user_db = sqlite3.connect('dc_bot.db')
+cursor = user_db.cursor()
+cursor.execute("""
+               CREATE TABLE IF NOT EXISTS
+               users(
+               id INTEGER PRIMARY KEY AUTOINCREMENT,
+               user_id INTEGER,
+               user TEXT,
+               coins INTEGER
+               CHECK (coins >= 0)
+               )
+        """)
+user_db.commit()
+user_db.close()
 
 dc_token = config("DC_TOKEN")
 prefix = "!"
@@ -37,7 +53,7 @@ async def on_ready():
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        await ctx.send(f"Comando não encontrado! por favor use {prefix}help para ver os comandos!")
+        await ctx.reply(f"Comando não encontrado! por favor use {prefix}help para ver os comandos!")
     else:
         raise error
 
@@ -76,6 +92,10 @@ async def mario(ctx):
     #Credo mano
     await ctx.send("WAAAAAAAAAAAAAH", file=discord.File(os.path.join(BASE_DIR, 'images/MARIOCU.jpg')))
 
+@bot.tree.command(name="mario", description="Ele gosta 😣")
+async def mario_tree(interaction: discord.Interaction):
+    await interaction.response.send_message(file=discord.File(os.path.join(BASE_DIR, 'images/MARIOCU.jpg')))
+
 @bot.command()
 async def eleé(ctx, pessoa, *, frase: str):
     if pessoa.lower() == "gabriel" or pessoa.lower() == "biel" or pessoa.lower() == "biz3l":
@@ -86,21 +106,37 @@ async def eleé(ctx, pessoa, *, frase: str):
 
 
 @bot.command()
-# Retorna a foto de perfil de quem enviou a mensagem
-async def minhafoto(ctx):
-    fotousr = ctx.author.display_avatar
-    await ctx.send(f"{fotousr}")
+# Retorna a foto de perfil do id/usuario colocado no argumento, se não houver nenhum envia a do próprio autor
+async def fotodata(ctx, usr: discord.User = None):
+    if usr == None:
+        fotousr = ctx.author.display_avatar
+        await ctx.reply(f"{fotousr}")
+        return
+    
+    try:
+        fotousr = usr.display_avatar
+        await ctx.send(f"{fotousr}")
+
+    except Exception as e:
+        print(f"ERRO: {e}")
+    
 
 @bot.command()
 # Retorna os dados do usuário no discord
-async def usrdata(ctx, idusr: int):
-        usr = await bot.fetch_user(idusr)
-        usr_display = re.sub(r"([^a-zA-Z0-9\s])", r"\\\1", usr.display_name)
-        usr_name = re.sub(r"([^a-zA-Z0-9\s])", r"\\\1", usr.name)
-        await ctx.send(f"Display name: {usr_display}")
-        await ctx.send(f"{usr.display_avatar}")
-        await ctx.send(f"Conta criada em: {usr.created_at.strftime('%d/%m/%Y %H:%M:%S')}")
-        await ctx.send(f"Usuário: @{usr_name}")
+async def usrdata(ctx, usr: discord.User = None):
+        if usr is None:
+            await ctx.reply("Não estou vendo id algum, por favor me mande para que eu possa te retornar!")
+            return
+        
+        try:
+            usr_display = re.sub(r"([^a-zA-Z0-9\s])", r"\\\1", usr.display_name)
+            usr_name = re.sub(r"([^a-zA-Z0-9\s])", r"\\\1", usr.name)
+            await ctx.send(f"Display name: {usr_display}")
+            await ctx.send(f"{usr.display_avatar}")
+            await ctx.send(f"Conta criada em: {usr.created_at.strftime('%d/%m/%Y %H:%M:%S')}")
+            await ctx.send(f"Usuário: @{usr_name}")
+        except Exception as e:
+            print(f"ERRO: {e}")
 
 @bot.command()
 # Comando pra ver o dia e a hora
@@ -112,15 +148,15 @@ async def diaehora(ctx):
 # Comando de Upscaling
 async def upscale(ctx):
     if not ctx.message.attachments:
-        await ctx.send('Não encontrei nenhum conteúdo anexado!')
+        await ctx.reply('Não encontrei nenhum conteúdo anexado!')
     attachment = ctx.message.attachments[0]
     # Verifica se é Imagem
     if not attachment.content_type or not attachment.content_type.startswith("image/"):
         if not attachment.filename.endswith((".png", ".jpg", ".jpeg", ".webp")):
-            await ctx.send("O conteúdo necessita ser uma imagem! 🖨️")
+            await ctx.reply("O conteúdo necessita ser uma imagem! 🖨️")
             return
     try:
-        await ctx.send("Processando imagem, por favor aguarde. ⏳")
+        await ctx.reply("Processando imagem, por favor aguarde. ⏳")
 
         file_path = os.path.join(BASE_DIR, f"utilities/enhancer/{attachment.filename}")
 
@@ -137,17 +173,19 @@ async def upscale(ctx):
         # Pega o path inteiro do output da imagem em upscale
         imagememupscale = await loop.run_in_executor(None, enhancer.upscale, os.path.join(BASE_DIR, f'utilities/enhancer/{imagemconvertida}'))
         
-        await ctx.send(f"{ctx.author.mention} Aqui está sua imagem:", file=discord.File(os.path.join(BASE_DIR, f"{imagememupscale}")))
+        await ctx.reply(f"{ctx.author.mention} Aqui está sua imagem:", file=discord.File(os.path.join(BASE_DIR, f"{imagememupscale}")))
 
         os.remove(os.path.join(BASE_DIR, f"utilities/enhancer/{imagemconvertida}"))
 
         os.remove(os.path.join(BASE_DIR, f"{imagememupscale}"))
 
     except Exception as e:
-        await ctx.send('Fiquei doidão e não consegui enviar a imagem 😵')
+        await ctx.reply('Fiquei doidão e não consegui enviar a imagem 😵')
         print(f'[ERRO UPSCALE]: {e}')
-        os.remove(os.path.join(BASE_DIR, f"utilities/enhancer/{imagemconvertida}"))
-        os.remove(os.path.join(BASE_DIR, f"{imagememupscale}"))
+        if imagemconvertida:
+            os.remove(os.path.join(BASE_DIR, f"utilities/enhancer/{imagemconvertida}"))
+        if imagememupscale:
+            os.remove(os.path.join(BASE_DIR, f"{imagememupscale}"))
         print(f'Imagens apagadas com sucesso')
 
 @bot.command()
@@ -162,14 +200,16 @@ async def vazio_roxo(ctx):
 
 @bot.command()
 # Comando para download de links mp3 do yt!
-async def ytdl(ctx, url):
-    if not url:
-        await ctx.send('Não encontrei nenhuma URL especificada! Para entender o comando envie "!help" !')
+async def ytdl(ctx, url = None):
+    if url == None:
+        await ctx.reply('Não encontrei nenhuma URL especificada! Para entender o comando envie "!help" !')
         return
     await ctx.send(f'PROCESSANDO :) \n**ATENÇÃO**, o arquivo enviado resulte em mais que 8mb, variando do server, há a possibilidade, do arquivo não ser enviado!')
+    
     try:
         loop = asyncio.get_event_loop()
         caminhodownload = await loop.run_in_executor(None, ytdownloader.ytdownloader, f"{url}")
+
         if caminhodownload == None:
             await ctx.send('ERRO: Arquivo não encontrado, possivelmente falha no download')
         
@@ -197,7 +237,7 @@ async def version(ctx):
     await ctx.send(f'Atualmente estou na versão **{bot_version}**, e meu criador {criador.name} tem muito amor a mim!')
 
 @bot.tree.command(name='version', description='Mostra a versão do bot')
-async def version(interaction: discord.Interaction):
+async def version_tree(interaction: discord.Interaction):
     criador = await bot.fetch_user('239568901204213760')
     await interaction.response.send_message(f'Atualmente estou na versão **{bot_version}**, e meu criador {criador.name} tem muito amor a mim!')
 

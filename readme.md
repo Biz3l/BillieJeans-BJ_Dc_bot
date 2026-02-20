@@ -1,29 +1,12 @@
 # Adicionado até o momento
-Python == 3.8
+Python == 3.10
 
 
 [Changelog](/Docs/Changelog.md)
 
-###### !ping
-"Pong!" para ver / calcular tempo de resposta do bot e ver se ele está up.
 
-###### !mario
-Não necessito explicar muito esse comando, ele por si só é autoexplicativo.
+Um bot feito com carinho para que possa fazer as mais diversas loucuras :)
+com muitas adições mudanças e coisas do tipo
+ele ainda está em produção!!!
 
-###### !eleé 
-Tá afim de zoar os amigos? Simplesmente esse comando faz isso, só enviar '!eleé **pessoa** o que ela é'
-
-###### !minhafoto
-Simplesmente retorna a foto de perfil do usuário o qual enviou esse comando
-
-###### !usrdata
-Só enviar !usrdata + id do usuário que você queira ver, e veja a magica acontecer!
-
-###### !diaehora
-**Autoexplicativo**, só testa ai cara :)
-
-###### !upscale
-envie em conjunto com uma imagem e veja a mágica acontecer
-**Atenção**, Sujeito a erros!!!
-
-**Para outros comandos, enviar !help no bot!**
+**Para ver os comandos, enviar !help no bot!**

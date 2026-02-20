@@ -4,6 +4,12 @@
 
 # Atualizações
 
+# 0.5
+- Diversas correções feitas no bot, deixando ele mais limpo
+- Diversas mudanças e adições em funções do bot
+- Adição de mais alguns comandos em tree
+- Bot mais fluído, mais limpo e bonito :)
+
 # 0.2
 - Adição do comando !version para ver a versão do robô :)
 - Correção do comando !help
