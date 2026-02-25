@@ -334,7 +334,7 @@ async def add_coins(ctx, moedas: int):
         "coins": moedas,
     })
 
-    print(r.json())
+    print(r.json()["SUCESSO"])
 
     if r.status_code == 200:
         await ctx.send(f"{moedas} moedas adicionadas com sucesso!")
