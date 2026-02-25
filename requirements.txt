@@ -46,7 +46,6 @@ nvidia-cuda-runtime-cu11==11.7.99
 nvidia-cudnn-cu11==8.5.0.96
 opencv-python==4.11.0.86
 ordered-set==4.1.0
-packaging @ file:///home/task_176104877067765/conda-bld/packaging_1761049113113/work
 pillow==12.1.1
 platformdirs==4.9.2
 propcache==0.4.1
