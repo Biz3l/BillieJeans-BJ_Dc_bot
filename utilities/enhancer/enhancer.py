@@ -51,6 +51,7 @@ def upscale(image):
 
 
 def converterimg(caminhoimagem):
+
   imagem = Image.open(caminhoimagem)
   
   imagem = imagem.convert('RGB')
@@ -60,8 +61,6 @@ def converterimg(caminhoimagem):
   nome_saida = f'{nome_file}' + ".jpg"
 
   imagem.save(f'{os.path.join(BASE_DIR, nome_saida)}', "JPEG")
-
-  print('Imagem Salva com Sucesso!')
 
   return nome_saida
 

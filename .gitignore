@@ -10,3 +10,4 @@ cookies.txt
 *.db
 *.webm
 *webm.part
+*.Identifier

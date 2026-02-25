@@ -27,7 +27,6 @@ def ytdownloader(url):
     'postprocessor_hooks': [meu_hook],
     'restrictfilenames': True,
     'noplaylist': True,
-    'ratelimit': 1024,
 }
   
   with YoutubeDL(ydl_opts) as ydl:

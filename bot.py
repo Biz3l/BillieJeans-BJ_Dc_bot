@@ -1,4 +1,5 @@
 import discord
+from discord import app_commands
 from decouple import config
 from flask import Flask
 from discord.ext import commands
@@ -9,18 +10,19 @@ import os
 import asyncio
 from utilities.botCommands import botcommands
 from utilities.ytdownloader import ytdownloader
-from keep_alive import keepAlive
+from api import keepAlive
 import sqlite3
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) ##Path base para o arquivo bot.py :)
+db = "dc_bot.db"
 
-user_db = sqlite3.connect('dc_bot.db')
+user_db = sqlite3.connect(db)
 cursor = user_db.cursor()
 cursor.execute("""
                CREATE TABLE IF NOT EXISTS
                users(
                id INTEGER PRIMARY KEY AUTOINCREMENT,
-               user_id INTEGER,
+               user_id INTEGER UNIQUE,
                user TEXT,
                coins INTEGER
                CHECK (coins >= 0)
@@ -144,9 +146,12 @@ async def diaehora(ctx):
     hoje = datetime.datetime.now()
     await ctx.send(f"{hoje.strftime('%A -- %H:%M:%S')}")
 
+### NUMERO DE PROCESSOS DO ENHANCER
+Processos = 1
 @bot.command()
 # Comando de Upscaling
-async def upscale(ctx):
+async def upscale(ctx, Processos=Processos):
+
     if not ctx.message.attachments:
         await ctx.reply('Não encontrei nenhum conteúdo anexado!')
     attachment = ctx.message.attachments[0]
@@ -155,6 +160,10 @@ async def upscale(ctx):
         if not attachment.filename.endswith((".png", ".jpg", ".jpeg", ".webp")):
             await ctx.reply("O conteúdo necessita ser uma imagem! 🖨️")
             return
+        
+    imagemconvertida = None
+    imagememupscale = None
+    
     try:
         await ctx.reply("Processando imagem, por favor aguarde. ⏳")
 
@@ -164,20 +173,29 @@ async def upscale(ctx):
         
         loop = asyncio.get_event_loop()
 
-        # Pega o nome da imagem convertida (Já que no caso cada imagem tem nomes diferentes)
+        # Pega o nome da imagem convertida e a converte (Já que no caso cada imagem tem nomes diferentes)
+        print("Convertendo imagem")
+
         imagemconvertida = await loop.run_in_executor(None, enhancer.converterimg, os.path.join(BASE_DIR, f"{file_path}"))
+
+        print("Imagem convertida!")
+
 
         os.remove(os.path.join(BASE_DIR, f"{file_path}"))
 
 
-        # Pega o path inteiro do output da imagem em upscale
+        # Pega o path inteiro do output da imagem em upscale e já upscala a imagem
         imagememupscale = await loop.run_in_executor(None, enhancer.upscale, os.path.join(BASE_DIR, f'utilities/enhancer/{imagemconvertida}'))
         
+        print(f"Processo: {Processos} feito com sucesso!")
+
         await ctx.reply(f"{ctx.author.mention} Aqui está sua imagem:", file=discord.File(os.path.join(BASE_DIR, f"{imagememupscale}")))
 
         os.remove(os.path.join(BASE_DIR, f"utilities/enhancer/{imagemconvertida}"))
 
         os.remove(os.path.join(BASE_DIR, f"{imagememupscale}"))
+
+        Processos += 1
 
     except Exception as e:
         await ctx.reply('Fiquei doidão e não consegui enviar a imagem 😵')
@@ -204,6 +222,9 @@ async def ytdl(ctx, url = None):
     if url == None:
         await ctx.reply('Não encontrei nenhuma URL especificada! Para entender o comando envie "!help" !')
         return
+    
+    caminhodownload = None
+
     await ctx.send(f'PROCESSANDO :) \n**ATENÇÃO**, o arquivo enviado resulte em mais que 8mb, variando do server, há a possibilidade, do arquivo não ser enviado!')
     
     try:
@@ -228,7 +249,40 @@ async def ytdl(ctx, url = None):
             os.remove(caminhodownload)
             return
         return
-    
+
+@bot.tree.command(name="ytdl", description="Faz um download em mp3 do youtube pra você :)")
+@app_commands.describe(url="URL do vídeo que queira baixar!!")
+async def ytdl_tree(interaction: discord.Interaction, url: str=None):
+    if url == None:
+        await interaction.response.send_message("Não encontrei nenhuma url especificada!")
+        return
+    await interaction.response.defer(thinking=True)
+
+    caminhodownload = None
+    try:
+        loop = asyncio.get_event_loop()
+        caminhodownload = await loop.run_in_executor(None, ytdownloader.ytdownloader, f"{url}")
+
+        if caminhodownload == None:
+            await interaction.followup.send('ERRO: Arquivo não encontrado, possivelmente falha no download')
+        
+        if os.path.getsize(caminhodownload) > 8 * 1024 * 1024:
+            await interaction.followup.send('ERRO: Arquivo grande demais para envio no discord!')
+            os.remove(caminhodownload)
+            return
+        
+        await interaction.followup.send(f"Aqui está seu arquivo baixado:", file=discord.File(os.path.join(BASE_DIR, f"{caminhodownload}")))
+        os.remove(caminhodownload)
+
+    except Exception as e:
+        await interaction.followup.send(f'Erro ao processar vídeo')
+        print(f"Erro Processamento de vídeo: {e}")
+        if caminhodownload and os.path.exists(caminhodownload):
+            os.remove(caminhodownload)
+            return
+        return
+
+
 bot_version = 0.5 #Versão do bot
 
 @bot.command()
@@ -240,5 +294,30 @@ async def version(ctx):
 async def version_tree(interaction: discord.Interaction):
     criador = await bot.fetch_user('239568901204213760')
     await interaction.response.send_message(f'Atualmente estou na versão **{bot_version}**, e meu criador {criador.name} tem muito amor a mim!')
+
+
+@bot.command()
+async def coins(ctx):
+    con = sqlite3.connect(db)
+    cur = con.cursor()
+
+    # Cria o usuário se não existir
+    cur.execute(
+        "INSERT OR IGNORE INTO users (user_id, user, coins) VALUES (?, ?, ?)",
+        (ctx.author.id, ctx.author.name, 0)
+    )
+    con.commit()
+
+    # Pega as moedas
+    cur.execute("SELECT coins FROM users WHERE user_id = ?", (ctx.author.id,))
+    coins = cur.fetchone()[0]
+
+    if coins == 1:
+        await ctx.send(f"Você tem {coins} moeda!")
+    else:
+        await ctx.send(f"Você tem {coins} moedas!")
+
+    con.close()
+
 
 bot.run(dc_token)
