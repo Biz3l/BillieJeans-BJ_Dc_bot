@@ -22,3 +22,6 @@ envie em conjunto com uma imagem e veja a mágica acontecer
 
 !ytdl
 envie '!ytdl (url do vídeo que queira o áudio)' e rapidamente você vai ter seu áudio em mãos!!!
+
+!coins
+Mostra quantas moedas o usuário tem!

@@ -12,6 +12,7 @@ from utilities.botCommands import botcommands
 from utilities.ytdownloader import ytdownloader
 from api import keepAlive
 import sqlite3
+import requests
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) ##Path base para o arquivo bot.py :)
 db = "dc_bot.db"
@@ -252,7 +253,7 @@ async def ytdl(ctx, url = None):
 
 @bot.tree.command(name="ytdl", description="Faz um download em mp3 do youtube pra você :)")
 @app_commands.describe(url="URL do vídeo que queira baixar!!")
-async def ytdl_tree(interaction: discord.Interaction, url: str=None):
+async def ytdl_tree(interaction: discord.Interaction, url: str):
     if url == None:
         await interaction.response.send_message("Não encontrei nenhuma url especificada!")
         return
@@ -293,7 +294,7 @@ async def version(ctx):
 @bot.tree.command(name='version', description='Mostra a versão do bot')
 async def version_tree(interaction: discord.Interaction):
     criador = await bot.fetch_user('239568901204213760')
-    await interaction.response.send_message(f'Atualmente estou na versão **{bot_version}**, e meu criador {criador.name} tem muito amor a mim!')
+    await interaction.response.send_message(f'Atualmente estou na versão **{bot_version}**, e meu criador {criador.name} tem muito amor a mim! <a:BongoCatMany:1476209882582745111>')
 
 
 @bot.command()
@@ -304,7 +305,7 @@ async def coins(ctx):
     # Cria o usuário se não existir
     cur.execute(
         "INSERT OR IGNORE INTO users (user_id, user, coins) VALUES (?, ?, ?)",
-        (ctx.author.id, ctx.author.name, 0)
+        (ctx.author.id, ctx.author.name, 0,)
     )
     con.commit()
 
@@ -313,11 +314,31 @@ async def coins(ctx):
     coins = cur.fetchone()[0]
 
     if coins == 1:
-        await ctx.send(f"Você tem {coins} moeda!")
+        await ctx.send(f"Você tem **{coins}** 🪙 moeda! <a:BongoCat:1476210219045490709>")
     else:
-        await ctx.send(f"Você tem {coins} moedas!")
+        await ctx.send(f"Você tem **{coins}** 🪙 moedas! <a:BongoCat:1476210219045490709>")
 
     con.close()
 
+
+@bot.command()
+async def add_coins(ctx, moedas: int):
+    if not moedas or moedas <= 0 or moedas >= 10000:
+        await ctx.send(f"Quantidade de moedas inválida!!!")
+        return
+    
+    r = requests.post("http://localhost:8080/pay", json={
+        "SECRET": f"{config('SECRET_KEY')}",
+        "user": ctx.author.name,
+        "user_id": ctx.author.id,
+        "coins": moedas,
+    })
+
+    print(r.json())
+
+    if r.status_code == 200:
+        await ctx.send(f"{moedas} moedas adicionadas com sucesso!")
+    else:
+        await ctx.send("Erro interno!")
 
 bot.run(dc_token)
