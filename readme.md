@@ -5,7 +5,6 @@ Bot para Discord desenvolvido em Python com `discord.py`, criado para aprendizad
 ## 💡 Funcionalidades
 
 - Comandos básicos de interação
-- Integrações com APIs (como OpenAI/Gemini quando implementadas)
 - Placeholder para futuras funções de pagamento e utilidades
 
 ## 🚀 Tecnologias usadas
