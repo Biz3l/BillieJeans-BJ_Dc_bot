@@ -5,13 +5,16 @@ Bot para Discord desenvolvido em Python com `discord.py`, criado para aprendizad
 ## 💡 Funcionalidades
 
 - Comandos básicos de interação
+- Upscaling de imagens
+- Download e conversão de vídeos para MP3
 - Placeholder para futuras funções de pagamento e utilidades
 
 ## 🚀 Tecnologias usadas
 
 - Python 3.10+
 - discord.py
-- APIs externas (OpenAI, Gemini)
+- RealESRGAN
+- yt-dlp
 
 ## 📦 Como usar
 

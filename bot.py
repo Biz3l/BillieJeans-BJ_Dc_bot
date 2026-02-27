@@ -93,11 +93,11 @@ async def ping(interaction: discord.Interaction):
 @bot.command()                                                                                                  
 async def mario(ctx):
     #Credo mano
-    await ctx.send("WAAAAAAAAAAAAAH", file=discord.File(os.path.join(BASE_DIR, 'images/MARIOCU.jpg')))
+    await ctx.send("WAAAAAAAAAAAAAH", file=discord.File(os.path.join(BASE_DIR, 'images/MARIO.jpg')))
 
-@bot.tree.command(name="mario", description="Ele gosta 😣")
+@bot.tree.command(name="mario", description="É o MARIO 😣")
 async def mario_tree(interaction: discord.Interaction):
-    await interaction.response.send_message(file=discord.File(os.path.join(BASE_DIR, 'images/MARIOCU.jpg')))
+    await interaction.response.send_message(file=discord.File(os.path.join(BASE_DIR, 'images/MARIO.jpg')))
 
 @bot.command()
 async def eleé(ctx, pessoa, *, frase: str):
