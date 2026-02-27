@@ -76,4 +76,4 @@ def pay():
   finally:
     conn.close()
 
-  return {"SUCESSO": "MOEDAS ADICIONADAS"}, 200
+  return {"SUCESSO": f"MOEDAS ADICIONADAS PARA O USUÁRIO {user} id:{user_id}"}, 200
