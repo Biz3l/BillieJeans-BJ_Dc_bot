@@ -1,30 +1,52 @@
-# Planejamentos futuros
-- Jogos divertidos talvez?
-- Adição da rest, para o próprio bot postar os logs no sv privado, ao invés de eu mesmo ir lá e alterar manualmente
+# Planejamentos Futuros
+- 🎮 Jogos interativos e divertidos
+- 📊 Sistema de REST API melhorado para logs automáticos
+- 💾 Banco de dados persistente para perfis de usuários
+- 🔐 Sistema de autenticação e permissões avançado
+- 🌐 Suporte multilíngue
 
-# Atualizações
+# Histórico de Atualizações
 
-# 0.5
-- Diversas correções feitas no bot, deixando ele mais limpo
-- Diversas mudanças e adições em funções do bot
-- Adição de mais alguns comandos em tree
-- Bot mais fluído, mais limpo e bonito :)
+## 0.6
+- ✨ Refatoramento completo de mensagens e respostas do bot
+- 🐛 Correção de diversos bugs relacionados a interações
+- 🧹 Limpeza geral do código e melhor estruturação
+- 📝 Melhorias na documentação README
+- ⚡ Otimizações de performance em comandos de processamento de imagem
 
-# 0.2
-- Adição do comando !version para ver a versão do robô :)
-- Correção do comando !help
-- Adição de um Downloader para audios do Youtube!
+## 0.5
+- 🔧 Diversas correções deixando o bot mais limpo
+- 🎛️ Mudanças e adições em várias funções do bot
+- ➕ Adição de mais comandos slash command (tree)
+- ✨ Bot mais fluído, limpo e visualmente melhor
+- 🎵 Melhorias no sistema de download de áudio
 
-# 0.1.5
-- Adição das funções assíncronas, que agora retornam uma imagem com um UUID Único!
+## 0.3
+- 🔄 Refatoração do sistema assíncrono
+- 📦 Estruturação melhor em cogs
+- 🛡️ Sistema de tratamento de erros melhorado
+- 🎨 Melhoria no upscaling com RealESRGAN
 
-# 0.1
-- Adição do comando de Upscaling.
-- Remoção do GeminiAI
+## 0.2
+- ✅ Adição do comando `!version` para verificar versão do bot
+- 🔧 Correção do comando `!help`
+- 🎵 Adição de Downloader para áudios do YouTube (yt-dlp)
+- 📥 Sistema de download robusto e assíncrono
 
-# 0.05
-- Adição de Diversos comandos divertidos!
-- ~~Adição do GeminiAI~~
+## 0.1.5
+- ⚙️ Adição de funções assíncronas
+- 🆔 Retorno de imagens com UUID único para identificação
+- 🚀 Melhorias em performance com async/await
 
-# 0.01
-- Create do bot.
+## 0.1
+- ⬆️ Adição do comando de Upscaling de imagens
+- ❌ Remoção da integração com GeminiAI
+- 🎨 Implementação do RealESRGAN para melhoria de qualidade
+
+## 0.05
+- 🎮 Adição de diversos comandos divertidos
+- ❌ ~~Tentativa de integração com GeminiAI~~ (removido)
+
+## 0.01
+- 🎉 Criação inicial do bot Discord
+- 🔧 Setup básico com discord.py

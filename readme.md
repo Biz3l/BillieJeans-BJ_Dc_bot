@@ -1,34 +1,74 @@
 # BillieJeans-BJ_Dc_bot
 
-Bot para Discord desenvolvido em Python com `discord.py`, criado para aprendizado e automações.
+Bot para Discord desenvolvido em Python com `discord.py`, criado para aprendizado, automações e utilitários diversos.
 
 ## 💡 Funcionalidades
 
-- Comandos básicos de interação
-- Upscaling de imagens
-- Download e conversão de vídeos para MP3
-- Placeholder para futuras funções de pagamento e utilidades
+### Comandos Principais
+- 🎨 **Upscaling de Imagens** - Melhora a qualidade de imagens usando RealESRGAN
+- 🎵 **Download de Áudio** - Converte vídeos do YouTube para MP3
+- 📊 **Comandos de Informação** - Versão, hora/data e outros dados
+- 🎮 **Comandos Divertidos** - Interações e jogos
+- 🛠️ **Utilidades Gerais** - Comandos auxiliares e suporte
+
+### Estrutura do Projeto
+```
+Bot/
+  ├── cogs/           # Comandos organizados por categoria
+  ├── error/          # Sistema de tratamento de erros
+  └── utilities/      # Ferramentas (enhancer, ytdownloader)
+api/                  # API auxiliar
+database/             # Gerenciamento de dados
+Docs/                 # Documentação
+```
 
 ## 🚀 Tecnologias usadas
 
-- Python 3.10+
-- discord.py
-- RealESRGAN
-- yt-dlp
+- **Python 3.10+**
+- **discord.py 2.6.4** - API Discord
+- **RealESRGAN** - Upscaling de imagens
+- **yt-dlp** - Download de vídeos YouTube
+- **Flask** - API auxiliar
+- **GFPGAN** - Restauração de rosto em imagens
 
 ## 📦 Como usar
 
 1. Clone o repositório  
-   `git clone https://github.com/Biz3l/BillieJeans-BJ_Dc_bot.git`
+   ```bash
+   git clone https://github.com/Biz3l/BillieJeans-BJ_Dc_bot.git
+   cd BillieJeans-BJ_Dc_bot
+   ```
+
 2. Crie um ambiente virtual  
-   `python -m venv venv`
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   # ou
+   venv\Scripts\activate  # Windows
+   ```
+
 3. Instale dependências  
-   `pip install -r requirements.txt`
-4. Rode o bot  
-   `python bot.py`
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## 🧠 Explicação
+4. Configure suas credenciais  
+   - Adicione seu token do Discord em variáveis de ambiente ou arquivo de configuração
 
-Esse projeto foi criado para praticar integração com APIs e automações em servidores Discord, com foco em aprender e evoluir.
+5. Execute o bot  
+   ```bash
+   python Bot/main.py
+   ```
+
+## 🧠 Sobre o Projeto
+
+Esse projeto foi criado com o objetivo de praticar:
+- Integração com APIs (Discord, YouTube, etc)
+- Programação assíncrona em Python
+- Arquitetura de bots Discord
+- Processamento de imagens
+- Automações em servidores Discord
+
+O bot continua em desenvolvimento e recebe melhorias e novos comandos regularmente.
 
 ---
