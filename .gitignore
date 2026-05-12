@@ -1,13 +1,19 @@
 .env
-__pycache__
+__pycache__/
 Pipfile
 Pipfile.lock
 Meowr_VenvDIR
 output.png
 convert.jpg
-DOCKERFILE
+Dockerfile
 cookies.txt
 *.db
 *.webm
 *webm.part
 *.Identifier
+
+# Virtual envs
+.venv/
+venv/
+env/
+ENV/

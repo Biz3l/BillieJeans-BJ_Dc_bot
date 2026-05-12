@@ -1,14 +1,12 @@
-from Bot.error.notMainBot import notMainBot
+from error.notMainBot import notMainBot
 from discord.ext import commands
 import asyncio
-from Bot.utilities.ytdownloader import ytdownloader
-from Bot.utilities.enhancer import enhancer
-from Bot.error.notMainBot import notMainBot
+from utilities.ytdownloader import ytdownloader
+from utilities.enhancer import enhancer
+from error.notMainBot import notMainBot
 from discord.ext import commands
 import discord
 import os
-
-
 
 if __name__ == "__main__":
   try:
@@ -76,7 +74,11 @@ else:
 
         except Exception as e:
             await ctx.reply('Fiquei doidão e não consegui enviar a imagem 😵')
+            if hasattr(e, "status") and  e.status == 413:
+                await ctx.send("Imagem muito grande!")
+
             print(f'[ERRO UPSCALE]: {e}')
+
             if imagemconvertida:
                 os.remove(os.path.join(BASE_DIR, f"utilities/enhancer/{imagemconvertida}"))
             if imagememupscale:
@@ -92,7 +94,7 @@ else:
         
         caminhodownload = None
 
-        await ctx.send(f'PROCESSANDO :) \n**ATENÇÃO**, o arquivo enviado resulte em mais que 8mb, variando do server, há a possibilidade, do arquivo não ser enviado!')
+        await ctx.send(f'PROCESSANDO :) \n**ATENÇÃO**, caso o arquivo enviado resulte em mais que 8mb, variando do server, há a possibilidade do arquivo não ser enviado!')
         
         try:
             loop = asyncio.get_event_loop()

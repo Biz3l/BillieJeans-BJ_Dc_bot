@@ -1,4 +1,4 @@
-from Bot.error.notMainBot import notMainBot
+from error.notMainBot import notMainBot
 from discord.ext import commands
 import discord
 import os
@@ -32,7 +32,7 @@ else:
         #Credo mano
         await ctx.send("WAAAAAAAAAAAAAH", file=discord.File(os.path.join(BASE_DIR, 'images', 'MARIO.jpg')))
 
-    @commands.command(name="MarioFoto", description="É o MARIO 😣")
+    @discord.app_commands.command(name="mariofoto", description="É o MARIO 😣")
     async def mario_tree(self, interaction: discord.Interaction):
         await interaction.response.send_message(file=discord.File(os.path.join(BASE_DIR, "images", "MARIO.jpg")))
 
