@@ -13,7 +13,6 @@ router = APIRouter(prefix='/users')
 async def add_user(user: userIn):
   query = users.insert().values(
     discord_id = user.discord_id,
-    coins = 0,
     joined_at = datetime.now()
   )
 
