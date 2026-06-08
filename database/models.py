@@ -1,5 +1,5 @@
 import sqlalchemy as sa
-from db import metadata
+from database.connection import metadata
 
 users = sa.Table('users',
                  metadata,
@@ -7,6 +7,6 @@ users = sa.Table('users',
                  sa.Column('discord_id', sa.BigInteger, unique=True, nullable=False),
                  sa.Column('username', sa.String, nullable=False),
                  sa.Column('avatar', sa.String, nullable=False),
-                 sa.Column('coins', sa.Integer, nullable=False, default=0),
+                 sa.Column('coins', sa.Integer, default=0, nullable=False),
                  sa.Column('joined_at', sa.DateTime, nullable=True),
                  )

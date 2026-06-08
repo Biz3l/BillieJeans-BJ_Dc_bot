@@ -1,9 +1,9 @@
-from error.notMainBot import notMainBot
+from Bot.error.notMainBot import notMainBot
 from discord.ext import commands
 import discord
 import datetime
 import re
-from utilities.botCommands import botcommands
+from Bot.utilities.botCommands import botcommands
 
 if __name__ == "__main__":
   try:
@@ -11,7 +11,7 @@ if __name__ == "__main__":
   except notMainBot as e:
     print(e.mainError)
 else:
-  bot_version = 0.6 #Versão do bot
+  bot_version = 0.7 #Versão do bot
   BOT_HELP = botcommands.comandos()
 
   class Info(commands.Cog):

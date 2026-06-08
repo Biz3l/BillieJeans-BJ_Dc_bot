@@ -1,4 +1,4 @@
-from error.notMainBot import notMainBot
+from Bot.error.notMainBot import notMainBot
 from discord.ext import commands
 import discord
 import os

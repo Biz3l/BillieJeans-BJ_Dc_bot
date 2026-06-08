@@ -7,6 +7,13 @@
 
 # Histórico de Atualizações
 
+## 0.7
+- 🗃️ Criação automática da tabela de usuários no startup do bot
+- 👤 Fluxo de criação automática de perfil ao usar comandos de moedas
+- 🪙 Ajustes no comando de consulta e adição de moedas
+- 🔧 Separação da lógica de banco em serviço dedicado
+- 🧩 Correções de importação e execução do projeto como módulo
+
 ## 0.6
 - ✨ Refatoramento completo de mensagens e respostas do bot
 - 🐛 Correção de diversos bugs relacionados a interações

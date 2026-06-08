@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from schemas.users import userIn
-from models.users import users
-from db import database
+from database.models import users
+from database.connection import database
 from datetime import datetime
 from views.users import userCreateOut
 
@@ -12,8 +12,11 @@ router = APIRouter(prefix='/users')
 @router.post('/addUser', response_model=userCreateOut)
 async def add_user(user: userIn):
   query = users.insert().values(
+    username = "test",
+    avatar = "https?????",
     discord_id = user.discord_id,
-    joined_at = datetime.now()
+    joined_at = datetime.now(),
+    coins = 0
   )
 
   await database.execute(query)

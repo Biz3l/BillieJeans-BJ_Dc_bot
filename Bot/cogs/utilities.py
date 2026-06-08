@@ -1,9 +1,8 @@
-from error.notMainBot import notMainBot
+from Bot.error.notMainBot import notMainBot
 from discord.ext import commands
 import asyncio
-from utilities.ytdownloader import ytdownloader
-from utilities.enhancer import enhancer
-from error.notMainBot import notMainBot
+from Bot.utilities.ytdownloader import ytdownloader
+from Bot.utilities.enhancer import enhancer
 from discord.ext import commands
 import discord
 import os
