@@ -1,4 +1,3 @@
-import datetime
 import discord
 from discord import app_commands
 from decouple import config

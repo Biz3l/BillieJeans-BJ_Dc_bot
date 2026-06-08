@@ -8,7 +8,5 @@ class database_bot_services():
             discord_id = ctx.author.id,
             username = ctx.author.display_name,
             avatar = str(ctx.author.display_avatar.url),
-            coins = 0,
-            joined_at = datetime.datetime.now(),
         )
     await database.execute(create_user_query)
