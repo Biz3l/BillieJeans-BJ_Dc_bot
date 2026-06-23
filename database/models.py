@@ -1,5 +1,3 @@
-import datetime
-
 import sqlalchemy as sa
 from database.connection import metadata
 

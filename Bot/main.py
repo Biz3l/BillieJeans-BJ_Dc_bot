@@ -66,6 +66,7 @@ async def coins(ctx):
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def add_coins(ctx, moedas: int = None): #HACK: PLACEHOLDER PARA ADIÇÃO DE MOEDAS.
     if not moedas:
         await ctx.send(f"Por favor envie a quantidade de moedas!!!")
