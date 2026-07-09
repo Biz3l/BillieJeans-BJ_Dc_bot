@@ -11,6 +11,7 @@ cookies.txt
 *.webm
 *webm.part
 *.Identifier
+config.json
 
 # Virtual envs
 .venv/

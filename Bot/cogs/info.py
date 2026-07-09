@@ -95,3 +95,6 @@ else:
     @discord.app_commands.command(name='pingpong', description='pong!')
     async def pingTree(self, interaction: discord.Interaction):
         await interaction.response.send_message(f"Pong! 🏓, {interaction.user.mention}!")
+    
+async def setup(bot):
+    await bot.add_cog(Info(bot))

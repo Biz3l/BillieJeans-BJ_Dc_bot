@@ -49,3 +49,6 @@ else:
             await ctx.send(f"Sim em minha concordância o(a) {pessoa} é {frase}")
             await ctx.send(f"Lembrando, ele gosta de tu hein cuidado")
             return
+        
+async def setup(bot):
+    await bot.add_cog(Fun(bot))

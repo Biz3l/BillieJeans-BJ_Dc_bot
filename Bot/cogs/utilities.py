@@ -149,3 +149,6 @@ else:
                 os.remove(caminhodownload)
                 return
             return
+        
+async def setup(bot):
+    await bot.add_cog(Utilities(bot))
