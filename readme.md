@@ -23,11 +23,11 @@ Bot para Discord desenvolvido em Python com `discord.py`, criado para aprendizad
 
 ## 🚀 Tecnologias usadas
 
-- **Python 3.10**
+- **Python 3.10** == **Bot**
+- **Python 3.19** == **Backend**
 - **discord.py 2.6.4** - API Discord
 - **RealESRGAN** - Upscaling de imagens
 - **yt-dlp** - Download de vídeos YouTube
-- **Flask** - API auxiliar
 - **GFPGAN** - Restauração de rosto em imagens
 
 ## 📦 Como usar
