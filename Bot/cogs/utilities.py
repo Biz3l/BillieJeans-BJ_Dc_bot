@@ -2,10 +2,11 @@ from Bot.error.notMainBot import notMainBot
 from discord.ext import commands
 import asyncio
 from Bot.utilities.ytdownloader import ytdownloader
-from Bot.utilities.enhancer import enhancer
 from discord.ext import commands
 import discord
 import os
+from Bot.services.Upscaler.instance import upscale_queue_services
+
 
 if __name__ == "__main__":
   try:
@@ -24,7 +25,7 @@ else:
 
     @commands.command()
     # Comando de Upscaling
-    async def upscale(self, ctx, Processos=Processos):
+    async def upscale(self, ctx):
 
         if not ctx.message.attachments:
             await ctx.reply('Não encontrei nenhum conteúdo anexado!')
@@ -34,55 +35,14 @@ else:
             if not attachment.filename.endswith((".png", ".jpg", ".jpeg", ".webp")):
                 await ctx.reply("O conteúdo necessita ser uma imagem! 🖨️")
                 return
-            
-        imagemconvertida = None
-        imagememupscale = None
         
-        try:
-            await ctx.reply("Processando imagem, por favor aguarde. ⏳")
+        await ctx.reply(f"Imagem enviada! a sua imagem é a **{upscale_queue_services.get_queue_size()}** na fila, por favor aguarde⏳")
 
-            file_path = os.path.join(BASE_DIR, f"utilities/enhancer/{attachment.filename}")
+        file_path = os.path.join(BASE_DIR, f"services/Upscaler/{attachment.filename}")
 
-            await attachment.save(file_path)
-            
-            loop = asyncio.get_event_loop()
+        await attachment.save(file_path)
 
-            # Pega o nome da imagem convertida e a converte (Já que no caso cada imagem tem nomes diferentes)
-            print("Convertendo imagem")
-
-            imagemconvertida = await loop.run_in_executor(None, enhancer.converterimg, os.path.join(BASE_DIR, f"{file_path}"))
-
-            print("Imagem convertida!")
-
-
-            os.remove(os.path.join(BASE_DIR, f"{file_path}"))
-
-
-            # Pega o path inteiro do output da imagem em upscale e já upscala a imagem
-            imagememupscale = await loop.run_in_executor(None, enhancer.upscale, os.path.join(BASE_DIR, f'utilities/enhancer/{imagemconvertida}'))
-            
-            print(f"Processo: {Processos} feito com sucesso!")
-
-            await ctx.reply(f"{ctx.author.mention} Aqui está sua imagem:", file=discord.File(os.path.join(BASE_DIR, f"{imagememupscale}")))
-
-            os.remove(os.path.join(BASE_DIR, f"utilities/enhancer/{imagemconvertida}"))
-
-            os.remove(os.path.join(BASE_DIR, f"{imagememupscale}"))
-
-            Processos += 1
-
-        except Exception as e:
-            await ctx.reply('Fiquei doidão e não consegui enviar a imagem 😵')
-            if hasattr(e, "status") and  e.status == 413:
-                await ctx.send("Imagem muito grande!")
-
-            print(f'[ERRO UPSCALE]: {e}')
-
-            if imagemconvertida:
-                os.remove(os.path.join(BASE_DIR, f"utilities/enhancer/{imagemconvertida}"))
-            if imagememupscale:
-                os.remove(os.path.join(BASE_DIR, f"{imagememupscale}"))
-            print(f'Imagens apagadas com sucesso')
+        await upscale_queue_services.add_job(ctx, file_path)
 
     @commands.command()
     # Comando para download de links mp3 do yt!

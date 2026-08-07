@@ -32,5 +32,3 @@ def ytdownloader(url):
   with YoutubeDL(ydl_opts) as ydl:
     ydl.download([url])
   return caminho_arquivo
-  
-  

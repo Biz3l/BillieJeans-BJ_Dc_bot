@@ -4,9 +4,10 @@ from discord.ext import commands
 import os
 
 
+from Bot.services.Upscaler.instance import upscale_queue_services
 from database.connection import database, metadata, engine
 from database.models import users
-from Bot.services.database_services import database_bot_services
+from Bot.services.DatabaseServices import database_bot_services
 from Bot.config.config import Config
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) ##Path base para o arquivo bot.py :)
@@ -44,9 +45,12 @@ class Bot(commands.Bot):
         await database.connect()
         metadata.create_all(engine)
         synced = await self.tree.sync()
-
+        
         print("Tree Syncada com sucesso")
         print(f"Quantidade de comandos tree disponíveis: {len(synced)}")
+
+        await upscale_queue_services.start()
+        print("Queue de upscaling iniciado com suceso!")
         
 
     async def on_ready(self):

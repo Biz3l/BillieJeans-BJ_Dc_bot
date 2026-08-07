@@ -1,1 +1,0 @@
-#TODO: FAZER O CORE DO BOT (SUBCLASSE DE Commands.Bot)
